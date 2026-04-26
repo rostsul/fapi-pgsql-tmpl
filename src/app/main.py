@@ -8,14 +8,15 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from app.config import settings
 from app.health import router as health_router
 from app.middleware.security import security_middleware
-from app.routers.items import router as items_router
+
+# from app.routers.items import router as items_router
 from app.utils.logging import setup_logging
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     setup_logging()
-    logger = logging.getLogger("app")
+    logger: logging.Logger = logging.getLogger("app")
     logger.info("Application starting up")
     yield
     logger.info("Application shutting down")
@@ -35,7 +36,7 @@ app.add_middleware(
 app.middleware("http")(security_middleware)
 
 app.include_router(health_router, prefix="")
-app.include_router(items_router, prefix="/api/v1/items", tags=["items"])
+# app.include_router(items_router, prefix="/api/v1/items", tags=["items"])
 
 Instrumentator().instrument(app).expose(
     app, endpoint="/metrics", include_in_schema=False, tags=["system"]

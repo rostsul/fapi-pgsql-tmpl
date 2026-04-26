@@ -16,8 +16,8 @@ async def readiness():
     try:
         async with engine.connect() as conn:
             await conn.execute(text("SELECT 1"))
-        await redis_client.ping()
-        return {"status": "ready", "database": "ok", "redis": "ok"}
+        if redis_client.ping():
+            return {"status": "ready", "database": "ok", "redis": "ok"}
     except Exception as e:
         raise HTTPException(  # noqa: B904
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,

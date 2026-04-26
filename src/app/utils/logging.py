@@ -1,4 +1,5 @@
 import logging
+from typing import TextIO
 
 import structlog
 from structlog.processors import JSONRenderer, TimeStamper, add_log_level
@@ -28,10 +29,10 @@ def setup_logging():
         foreign_pre_chain=[TimeStamper(fmt="iso", utc=True), add_log_level],
     )
 
-    handler = logging.StreamHandler()
+    handler: logging.StreamHandler[TextIO] = logging.StreamHandler()
     handler.setFormatter(formatter)
 
-    root = logging.getLogger()
+    root: logging.Logger = logging.getLogger()
     root.handlers.clear()
     root.addHandler(handler)
     root.setLevel(settings.LOG_LEVEL.upper())
