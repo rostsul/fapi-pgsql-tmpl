@@ -1,0 +1,9 @@
+# uv.toml
+[[index]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
+
+# Фолбэк на основной PyPI, если зеркало временно недоступно
+[[index]]
+url = "https://pypi.org/simple/"
+explicit = false

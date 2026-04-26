@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-crud
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fastapi-crud
+  template:
+    meta:
+      labels:
+        app: fastapi-crud
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: api
+          image: your-registry/fastapi-crud:latest
+          ports: [{ containerPort: 8000, protocol: TCP }]
+          envFrom: [{ configMapRef: { name: app-config } }]
+          livenessProbe:
+            httpGet: { path: /health, port: 8000 }
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet: { path: /ready, port: 8000 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            limits: { cpu: "500m", memory: "256Mi" }
+            requests: { cpu: "100m", memory: "128Mi" }

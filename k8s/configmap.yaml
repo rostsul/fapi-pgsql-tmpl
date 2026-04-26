@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: uv-config
+data:
+  UV_INDEX_URL: "https://mirrors.aliyun.com/pypi/simple/"
+  UV_EXTRA_INDEX_URL: "https://pypi.org/simple/"
