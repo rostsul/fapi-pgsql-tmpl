@@ -22,4 +22,4 @@ class Settings(BaseSettings):
         return self.APP_ENV == "production"
 
 
-settings = Settings()
+settings = Settings()  # ty:ignore[missing-argument]
